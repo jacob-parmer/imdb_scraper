@@ -2,7 +2,6 @@
 ### Author: Jacob Parmer, Auburn University
 ###
 ### Last Updated: August 5th, 2020
-###
 """ 
 
 import requests
@@ -19,11 +18,12 @@ class DataCollector:
 	Given the name of a streaming service, add the names of original programming found on
 	that streaming service to the list_of_shows dict.
 	
-	INPUTS: svc_name - name of streaming service to be searched (e.g. Netflix, Hulu, etc.)
-		verbose - Turns logging on and off for the API connection
+	INPUTS: svc_name (String) - name of streaming service to be searched
+				    (e.g. Netflix, Hulu, etc.)
+		verbose (Bool) - Turns logging on and off for the API connection
 
-	OUTPUTS: list_of_shows[svc_name] - (mostly accurate) list of names of TV/Movies found on
-					   desired streaming service
+	OUTPUTS: list_of_shows[svc_name] (List) - (mostly accurate) list of names of TV/Movies
+						   found on desired streaming service
 
 	"""
 	def get_shows_from_service(self, svc_name, verbose=False):
