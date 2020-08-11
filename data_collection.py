@@ -1,13 +1,16 @@
 """
 ### Author: Jacob Parmer, Auburn University
 ###
-### Last Updated: August 5th, 2020
+### Last Updated: August 10, 2020
 """ 
 
 import requests
 import json
 import logging
 import re
+import time
+import concurrent.futures
+from IMDb import TVShow
 
 class DataCollector:
 
@@ -26,7 +29,7 @@ class DataCollector:
 						   found on desired streaming service
 
 	"""
-	def get_shows_from_service(self, svc_name, verbose=False):
+	def get_titles_from_service(self, svc_name, verbose=False):
 			
 		# formats data entry to match name of Wikipedia article to be grabbed
 		# e.g. "https://en.wikipedia.org/wiki/List_of_Netflix_original_programming"
@@ -73,5 +76,48 @@ class DataCollector:
 
 			if r"\'" in titles[i]:
 				titles[i] = titles[i].replace(r"\'",r"'")
+		shows = []
+		for title in titles:
+			imdb = TVShow(title)
+			shows.append(imdb)
 
-		self.list_of_shows[svc_name] = titles	
+		self.list_of_shows[svc_name] = shows	
+	
+	"""
+	Load show data for provided streaming service.
+
+	INPUTS: svc_name (String) - Name of streaming service to get show data for
+		verbose (Bool) - Turns logging on and off for runtime data
+		multiprocessing (Bool) - Turns multiprocessing on and off, can be used to speed
+					 up runtimes on higher-end machines
+
+	OUTPUTS: list_of_shows[svc_name] - Data for shows in dict under svc_name
+
+
+	"""
+	def get_data_for_svc(self, svc_name, verbose=False, multiprocessing=False):
+		
+		if verbose:
+			start_time = time.time()
+
+		showlist = []
+		results = []
+		# todo: multiprocessing broken right now, fix!
+		if multiprocessing:	
+			with concurrent.futures.processPoolExecutor() as executor:
+				for show in self.list_of_shows[svc_name]:
+					results.append(executor.submit(
+						       imdb.get_ratings_from_title, [verbose]))
+		
+					for f in concurrent.futures.as_completed(results):
+						showlist.append(f)
+
+		else:
+			shows_to_remove = []
+			for i, show in enumerate(self.list_of_shows[svc_name]):
+				success = show.get_ratings_from_title(verbose=verbose)
+				if not success:
+					shows_to_remove.append(i)
+
+			for j, item in enumerate(shows_to_remove):
+				self.list_of_shows[svc_name].pop(item - j)
