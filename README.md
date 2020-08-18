@@ -14,4 +14,4 @@ Step 4.) Displays data as boxplot with each box representing a streaming service
 
 
 # Results and Conclusion:
-Amazon's original programming did have a higher mean rating than it's counterparts in Netflix and Hulu. However, the method for collecting this rating data is very imperfect as it is now, and only having a higher mean is hardly scientific evidence. Does Amazon inflate their own IMDb scores? ¯\_(ツ)_/¯
+Amazon's original programming did have a higher mean rating than it's counterparts in Netflix and Hulu. However, the method for collecting this rating data is very imperfect as it is now, and only having a higher mean is hardly scientific evidence. Does Amazon inflate their own IMDb scores? ¯\\_(ツ)_/¯
