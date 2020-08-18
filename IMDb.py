@@ -81,8 +81,8 @@ class TVShow:
 	
 			for row in spamreader:
 				if self.titleId == row[0]:
-					self.rating = row[1]	
-					self.numOfVotes = row[2]
+					self.rating = float(row[1])
+					self.numOfVotes = int(row[2])
 					found = True
 					break
 
@@ -108,7 +108,7 @@ class TVShow:
 		 self.numOfVotes (Int) - Total number of votes show has received
 		 success (Bool) - Returns true if rating was successfully set, false if not
 	"""
-	def show_data_from_title(self, verbose=False):
+	def get_data_from_title(self, verbose=False):
 		success = False
 
 		self.get_info_from_title(verbose=verbose)

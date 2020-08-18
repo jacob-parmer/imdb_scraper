@@ -115,7 +115,7 @@ class DataCollector:
 		else:
 			shows_to_remove = []
 			for i, show in enumerate(self.list_of_shows[svc_name]):
-				success = show.get_ratings_from_title(verbose=verbose)
+				success = show.get_data_from_title(verbose=verbose)
 				if not success:
 					shows_to_remove.append(i)
 
